@@ -6,7 +6,7 @@ The database is a Railway PostgreSQL. Nothing else to install, no Supabase.
 ## Put it online (about 5 minutes)
 
 1. **GitHub**: create a new repository and upload everything from this folder
-   (`package.json` must be at the top level of the repo).
+   (all files are at the top level: there are no folders).
 2. **Railway** → *New Project* → *Deploy from GitHub repo* → pick your repo.
 3. In the same Railway project click **+ New → Database → Add PostgreSQL**.
 4. Open your **web service → Variables → New Variable**
@@ -26,7 +26,7 @@ On the first start the server creates all the tables by itself (check *Deploy Lo
   *Activate super admin*, and gets the full dashboard. Wrong passwords are refused, and after 5 wrong
   tries the account is locked for 15 minutes.
 
-The secret password is stored only as a salted hash (`lib/auth.js`), never in clear text.
+The secret password is stored only as a salted hash (`auth.js`), never in clear text.
 To change it later: in Railway add the variable `SUPER_ADMIN_PASSWORD` with the new password and redeploy
 (it replaces the built-in one).
 

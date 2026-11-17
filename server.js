@@ -1,7 +1,7 @@
 "use strict";
 /* ESST site: serves the website AND its built-in backend (accounts + data on Railway PostgreSQL). */
 const http = require("node:http"), fs = require("node:fs"), path = require("node:path"), zlib = require("node:zlib");
-const db = require("./lib/db"), api = require("./lib/auth");
+const db = require("./db"), api = require("./auth");
 const ROOT = __dirname, PORT = parseInt(process.env.PORT, 10) || 3000;
 const TYPES = { ".html": "text/html; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".ico": "image/x-icon", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8" };
 
@@ -31,7 +31,7 @@ http.createServer((req, res) => {
   if (p.startsWith("/auth/v1/") || p.startsWith("/rest/v1/") || p.startsWith("/api/")) return api.handle(req, res, p, url);
   if (req.method !== "GET" && req.method !== "HEAD") { res.writeHead(405); return res.end(); }
   const rel = p === "/" ? "index.html" : p.replace(/^\/+/, "");
-  const allowed = rel === "index.html" || (/^assets\/[\w\-./]+$/.test(rel) && !rel.includes(".."));
+  const allowed = rel === "index.html" || rel === "favicon.svg";
   const file = path.join(ROOT, allowed ? rel : "index.html");           // unknown path: give the app (it routes by itself)
   if (!allowed && path.extname(rel)) { res.writeHead(404); return res.end("Not found"); }
   fs.stat(file, (e, st) => {
